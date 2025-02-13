@@ -83,11 +83,9 @@ def game_loop():
                     y_change = block_size
                     x_change = 0
 
-        # Обновляем координаты змейки
         x += x_change
         y += y_change
 
-        # Логика появления змейки с другой стороны экрана
         if x >= width:
             x = 0
         elif x < 0:
