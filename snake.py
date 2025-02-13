@@ -20,12 +20,12 @@ clock = pygame.time.Clock()
 block_size = 20
 snake_speed = 5
 
-font_style = pygame.font.SysFont("arial", 20)
-score_font = pygame.font.SysFont("arial", 35)
+font_style = pygame.font.SysFont('arial', 20)
+score_font = pygame.font.SysFont('arial', 35)
 
 def display_score(score):
-    value = score_font.render("Ваш результат: " + str(score), True, white)
-    game_window.blit(value, [0, 0])
+    value = score_font.render('Счёт: ' + str(score), True, white)
+    game_window.blit(value, [20, 10])
 
 def draw_snake(block_size, snake_list):
     for block in snake_list:
@@ -33,7 +33,7 @@ def draw_snake(block_size, snake_list):
 
 def display_message(msg, color):
     mesg = font_style.render(msg, True, color)
-    game_window.blit(mesg, [5, 100])
+    game_window.blit(mesg, [20, 180])
 
 def game_loop():
     game_over = False
@@ -54,7 +54,7 @@ def game_loop():
     while not game_over:
         while game_close:
             game_window.fill(black)
-            display_message("Вы проиграли! Нажмите Q для выхода или R для возобновления игры", red)
+            display_message('Вы проиграли! Нажмите Q для выхода или R для возобновления игры', red)
             display_score(snake_length - 1)
             pygame.display.update()
 
@@ -83,11 +83,20 @@ def game_loop():
                     y_change = block_size
                     x_change = 0
 
-        if x >= width or x < 0 or y >= height or y < 0:
-            game_close = True
-
+        # Обновляем координаты змейки
         x += x_change
         y += y_change
+
+        # Логика появления змейки с другой стороны экрана
+        if x >= width:
+            x = 0
+        elif x < 0:
+            x = width - block_size
+        if y >= height:
+            y = 0
+        elif y < 0:
+            y = height - block_size
+
         game_window.fill(black)
         pygame.draw.rect(game_window, red, [food_x, food_y, block_size, block_size])
         snake_head = [x, y]
